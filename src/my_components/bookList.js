@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react'
+import { Link } from 'react-router-dom'
 import Book from '../my_components/book';
 
-class SearchScreen extends Component{
+class BookList extends Component{
     render(){
         let { 
-            handleSearchChange,
+            handleSearchChange: handleChanges,
             searchResults,
             searchError,
             searchQuery,
@@ -22,7 +22,7 @@ class SearchScreen extends Component{
                 
                 <input type="text" placeholder="Search by title or author" value={searchQuery}
                   onChange={(e)=>{
-                    handleSearchChange(e);
+                    handleChanges(e);
                   }}
                 />
 
@@ -61,4 +61,4 @@ class SearchScreen extends Component{
     }
 }
 
-export default SearchScreen
+export default BookList;

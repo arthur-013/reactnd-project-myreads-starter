@@ -1,33 +1,47 @@
 import React, {Component} from 'react';
-import FloatingActionButton from '../my_components/FloatingActionButton';
 import Shelf from '../my_components/shelf';
-import {getAll} from '../BooksAPI';
+import FloatingActionButton from '../my_components/FloatingActionButton';
 
 class HomeScreen extends Component{
-
-    async componentDidMount(){
-        try{
-            const books  = await getAll();
-            this.props.addBooks(books); 
-
-        }catch(error){
-            console.log(error);
-        }
-    }
     render(){
-        return(<div className="list-books">
-        <div className="list-books-title">
-          <h1>MyReads</h1>
-        </div>
-        <div className="list-books-content">
-          <Shelf title = 'Currently reading'books = {this.props.currentlyReading} moveBook ={this.props.moveBook}/>
-          <Shelf title = 'Want to read' books = {this.props.wantToRead} moveBook ={this.props.moveBook}/>
-          <Shelf title ='Read' books= {this.props.read} moveBook={this.props.moveBook}/>
-          
-        </div>
-        <FloatingActionButton/>
-      </div>
-      );
+        let { 
+          handleReadingChange,
+          currentlyReading,
+          wantToRead,
+          read 
+        
+        } = this.props
+        return(
+          <div className="list-books">
+            <div className="list-books-title">
+              <h1>MyReads</h1>
+            </div>
+            <div className="list-books-content">
+              <div>
+                <div className="bookshelf">
+                  <Shelf
+                    handleReadingChange={handleReadingChange}
+                    status={currentlyReading}
+                    statusTitle={'Currently Reading'}
+                  />
+                  <Shelf 
+                    handleReadingChange={handleReadingChange}
+                    status={wantToRead}
+                    statusTitle={'Want to Read'}
+                  />
+                  <Shelf 
+                    handleReadingChange={handleReadingChange}
+                    status={read}
+                    statusTitle={'Read'}
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <FloatingActionButton/>
+            </div>
+          </div>
+        )
     }
 }
 

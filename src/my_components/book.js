@@ -1,55 +1,45 @@
-import React, {Component} from 'react';
-import {update} from '../BooksAPI';
-
+import React, {Component} from 'react'
 
 class Book extends Component{
-  handleChanges = async e =>{
-    try{
-      const shelf =e.target.value;
-      const book = this.props;
-      const result = await update(book,shelf);
-      this.props.shelf = e.target.value;
-      this.props.moveBook(book, shelf,result);
-
-      console.log(result);
-    }catch(error){
-      console.log(error);
-    }
-  }
-
- 
     render(){
-      
-
-
-        return (
-            <li>
-              <div className="book">
+        let { 
+            book,
+            handleReadingChange,
+            currentlyReading,
+            wantToRead,
+            read,
+            index
+        } = this.props
+        let shelf = 'none'
+        if(currentlyReading && currentlyReading.indexOf(book.title)>=0){
+            shelf = 'currentlyReading'
+        }else if(wantToRead && wantToRead.indexOf(book.title)>=0){
+            shelf = 'wantToRead'
+        }else if(read && read.indexOf(book.title)>=0){
+            shelf = 'read'
+        }
+        const style = { width: 128, height: 193, backgroundImage: `url(${book.imageLinks? book.imageLinks.thumbnail:'' })` }
+        return(
+            <div className="book">
                 <div className="book-top">
-                  <div className="book-cover" style={{ 
-                    width: 128,
-                     height: 193,
-                      backgroundImage: `url(${this.props.imageLinks? this.props.imageLinks.thumbnail: ""})`
-                      
-                      }}>
-                      
-                  </div>
-                  <div className="book-shelf-changer">
-                    <select onChange ={this.handleChanges}value = {this.props.shelf}>
-                      <option value="move" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
+                    <div className="book-cover" style={style}></div>
+                    <div className="book-shelf-changer">
+                    <select value={book.shelf?book.shelf:shelf} onChange={(e)=>{
+                        handleReadingChange(e,book)
+                    }}>
+                        <option  disabled selected value>Move to...</option>
+                        <option value="currentlyReading">Currently Reading</option>
+                        <option value="wantToRead">Want to Read</option>
+                        <option value="read">Read</option>
+                        <option value="none">None</option>
                     </select>
-                  </div>
+                    </div>
                 </div>
-                <div className="book-title">{this.props.title}</div>
-                <div className="book-authors">{this.props.authors? this.props.authors: "No authors"}</div>
-              </div>
-            </li>
+                <div className="book-title">{book.title}</div>
+                <div className="book-authors">{book.author}</div>
+            </div>
         )
     }
-  }
+}
 
-export default Book;
+export default Book
