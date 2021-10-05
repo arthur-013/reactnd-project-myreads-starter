@@ -18,7 +18,7 @@ class Index extends Component{
             this.setState({books,currentlyReading,read,wantToRead});
             },
 
-            moveBook : (book,newShelf, allShelves)=>{
+            moveBook :  (newShelf, allShelves)=>{
                 console.log(newShelf);
                 const newBooks = this.state.books.map(allBooks=>{
                     const foundBookId = allShelves[newShelf].find(

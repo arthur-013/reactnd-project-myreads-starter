@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {search} from '../BooksAPI';
 import Book from '../my_components/book'
@@ -6,13 +6,17 @@ import {getAll} from '../BooksAPI';
 
 class SearchScreen extends Component{
 
-  constructor(props){
-    super(props);
-    this.state ={
-      query: "",
-      books:[],
-    };
-  }
+  // constructor(){
+  //   super();
+  //   this.state = {
+  //     query: "",
+  //     books:[],
+      
+  //   };
+  // }
+
+  
+  
 
   async componentDidMount(){
     try{
@@ -26,6 +30,7 @@ class SearchScreen extends Component{
 
   handleChanges = async e =>{
     try{
+      
       const query = e.target.value;
       this.setState({query});
       if(query.trim()){
@@ -46,7 +51,13 @@ class SearchScreen extends Component{
       console.log(error)
     }
   };
+
+  
     render(){
+      const [query, setQuery] = useState('');
+      const [books, setBooks] = useState([]);
+
+      console.log(query);
         return(<div className="search-books">
         <div className="search-books-bar">
          <Link to = {"/"}> <button className="close-search" >Close</button></Link>
@@ -82,5 +93,4 @@ class SearchScreen extends Component{
       </div>);
     }
 }
-
 export default SearchScreen;

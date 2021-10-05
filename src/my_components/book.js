@@ -3,25 +3,35 @@ import {update} from '../BooksAPI';
 
 
 class Book extends Component{
-  handleChanges = async e =>{
+
+  constructor(props){
+    super(props)
+    this.state ={
+      shelf: this.props.shelf,
+    
+    }
+  }
+
+  handleChanges = async (e) =>{
     try{
-      const shelf =e.target.value;
+      const shelf =e.target.value
       const book = this.props;
       const result = await update(book,shelf);
-      this.props.shelf = e.target.value;
-      this.props.moveBook(book, shelf,result);
+      this.setState({shelf: this.state.shelf});
+      // this.props.shelf = e.target.value
+      // this.props.moveBook(book, shelf);
 
       console.log(result);
     }catch(error){
       console.log(error);
     }
+    
   }
 
- 
-    render(){
       
+    render(){
 
-
+      const {shelf} = this.state;
         return (
             <li>
               <div className="book">
@@ -35,7 +45,7 @@ class Book extends Component{
                       
                   </div>
                   <div className="book-shelf-changer">
-                    <select onChange ={this.handleChanges}value = {this.props.shelf}>
+                    <select onChange ={this.handleChanges}value = {shelf}>
                       <option value="move" disabled>Move to...</option>
                       <option value="currentlyReading">Currently Reading</option>
                       <option value="wantToRead">Want to Read</option>
@@ -51,5 +61,4 @@ class Book extends Component{
         )
     }
   }
-
 export default Book;
